@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+
+<head>
+
+    <!-- For Google Sign in-->
+    <meta name="google-signin-client_id"
+        content="225358383782-6egbfm6sfsfl684m8hrblcu2je1e0nuq.apps.googleusercontent.com" />
+    <!-- For Google API Sign in-->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- 3 files below are for the use of bootstrap formatting-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- html index file for project-->
+    <title>Max Fantasy | <%= title %>
+    </title>
+
+
+
+
+    <style>
+        body {
+            padding: 1em;
+            text-align: center;
+            background-color: lightblue;
+        }
+
+        a {
+            color: black;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: black;
+            background-color: rgb(195, 238, 255);
+            font-weight: bold;
+        }
+
+        h1 {
+            color: black;
+        }
+
+        a:hover {
+            color: black;
+            background-color: rgb(195, 238, 255);
+            font-weight: bold;
+        }
+
+        h1 {
+            color: black;
+        }
+
+        span {
+            font-style: italic;
+        }
+
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons that are used to open the tab content */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <%- include('./partials/nav.ejs') %>
+    </div>
+    <div class="row">
+        <div class="col-sm-9"></div>
+        <div class="g-signin2 col-sm-2" data-onsuccess="onSignIn"></div>
+        <button class="btn col-sm-1" onclick="signOut()"><a href="index">Sign out</a></button>
+    </div>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'MyTeam')">My Team</button>
+        <button class="tablinks" onclick="openTab(event, 'MyRecommendations')">My Recommendations</button>
+    </div>
+
+    <div id="MyTeam" class="tabcontent">
+        <h3>MyTeam</h3>
+        <p>Shows first team built by user</p>
+        <p>To see new team, delete previous teams</p>
+        <div class="details">
+            <br>
+            <text>
+                <% if (showTeam){ %>
+            </text>
+            <label>USER: </label>
+            <text>
+                <%= showTeam.userEmail %>
+            </text><br>
+            <label>QB: </label>
+            <text id="QB">
+                <%= showTeam.QB %>
+            </text><br />
+            <label>RB1: </label>
+            <text id="RB1">
+                <%= showTeam.RB1 %>
+            </text><br>
+            <label>RB2: </label>
+            <text id="RB2">
+                <%= showTeam.RB2 %>
+            </text><br>
+            <label>WR1: </label>
+            <text id="WR1">
+                <%= showTeam.WR1 %>
+            </text><br>
+            <label>WR2: </label>
+            <text id="WR2">
+                <%= showTeam.WR2 %>
+            </text><br>
+            <label>TE: </label>
+            <text>
+                <%= showTeam.TE %>
+            </text> <br>
+            <label>FLEX: </label>
+            <text>
+                <%= showTeam.FLEX %>
+            </text> <br>
+            <label>DEFENSE: </label>
+            <text>
+                <%= showTeam.DEFENSE %>
+            </text> <br>
+            <label>K: </label>
+            <text>
+                <%= showTeam.K %>
+            </text> <br>
+            <label>BENCH1: </label>
+            <text>
+                <%= showTeam.BENCH1 %>
+            </text> <br>
+            <label>BENCH2: </label>
+            <text>
+                <%= showTeam.BENCH2 %>
+            </text> <br>
+            <label>BENCH3: </label>
+            <text>
+                <%= showTeam.BENCH3 %>
+            </text> <br>
+            <label>BENCH4: </label>
+            <text>
+                <%= showTeam.BENCH4 %>
+            </text> <br>
+            <label>BENCH5: </label>
+            <text>
+                <%= showTeam.BENCH5 %>
+            </text> <br>
+            <label>BENCH6: </label>
+            <text>
+                <%= showTeam.BENCH6 %>
+            </text> <br>
+            <label>BENCH7: </label>
+            <text>
+                <%= showTeam.BENCH7 %>
+            </text> <br>
+            <br />
+            <button class="btn"><a class="delete" data-doc="<%= showTeam._id %>">Delete
+                    Team</a></button>
+
+
+            <% }else { %>
+                <p>no team to display...
+                </p>
+                <p>May not be signed in
+                    OR no team has been
+                    built</p>
+                <% } %>
+
+        </div>
+
+    </div>
+
+    <div id="MyRecommendations" class="tabcontent">
+        <h3>Your Recommendations</h3>
+        <div id="recs"></div>
+        <div id="test"></div>
+    </div>
+
+    <script>
+
+        function openTab(evt, tabName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+
+        const trashcan = document.querySelector('a.delete');
+        trashcan.addEventListener('click', (e) => {
+            const endpoint = `/myTeam/${trashcan.dataset.doc}`;
+            fetch(endpoint, {
+                method: 'DELETE',
+            })
+                .then(response => response.json())
+                .then(data => window.location.href = data.redirect)
+                .catch(err => console.log(err));
+        });
+
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            //console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+        }
+        // For Sign Out
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+            });
+        }
+
+
+
+        // make recommendations
+
+        let QB = document.getElementById("QB").innerHTML;
+        let RB1 = document.getElementById("RB1").innerHTML;
+        let RB2 = document.getElementById("RB2").innerHTML;
+        let WR1 = document.getElementById("WR1").innerHTML;
+        let WR2 = document.getElementById("WR2").innerHTML;
+
+        class Player {
+            constructor(aName, aPosition, aStat1, aValue1/*, aStat2, aValue2*/) {
+                this.Name = aName;
+                this.Position = aPosition;
+                this.Stat1 = aStat1;
+                this.Value1 = aValue1;
+                //this.Stat2 = aStat2;
+                //this.Value2 = aValue2;
+            }
+        }
+
+
+        let players = [];
+        fetch('csvjson.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                myJSON = data;
+
+
+
+                myJSON.map(function (obj, i) {
+                    console.log(obj.Name);
+                    /*if (obj.Position == "QB" && obj.Name == QB) {
+                        name = obj.Name;
+                        
+                        position = obj.Position;
+                        stat1 = obj.Stat1;
+                        value1 = obj.Value1;
+                        players[i] = new Player(name, position, stat1, value1);*/
+                });
+            })
+            .catch(function (error) {
+                console.log(error);
+            }) // end of fetching
+            
+
+
+
+        //document.getElementById("test").innerHTML += players[0].Name;
+
+
+        let recs = ["Lamar Jackson is a better option at QB this week than Kyler Murray", "Kenyon Drake is in a bye week, consider putting someone else in the flex spot"];
+        for (let i = 0; i < recs.length; i++) {
+            document.getElementById("recs").innerHTML += i + 1 + ". " + recs[i] + "<br/><br/>";
+        }
+        document.getElementById("recs").innerHTML += ` <button onclick="return remove()">Clear</button> <br/>  `;
+
+        function remove() {
+            document.getElementById("recs").innerHTML = "";
+        }
+
+    </script>
+
+
+
+
+</body>
+
+</html>
